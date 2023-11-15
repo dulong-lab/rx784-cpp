@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <sstream>
 #include <vector>
+#include <functional>
 
 namespace RX784 {
     enum class Status : uint8_t {
@@ -180,6 +181,8 @@ namespace RX784 {
         Axes axes;
     };
 #pragma pack(pop)
+
+    struct LinearPath;
 
     class Device {
     public:
@@ -381,6 +384,28 @@ namespace RX784 {
             return cmdStatus;
         }
 
+        Status movePathRel(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate, bool isIgnoreErrors,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){});
+
+        Status movePathRel(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){}) {
+            return movePathRel(x, y, duration, pollingRate, false, path, callback);
+        }
+
+        Status movePathRel(int16_t x, int16_t y, uint32_t duration, bool isIgnoreErrors,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){}) {
+            return movePathRel(x, y, duration, 125, isIgnoreErrors, path, callback);
+        }
+
+        Status movePathRel(int16_t x, int16_t y, uint32_t duration,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){}) {
+            return movePathRel(x, y, duration, 125, false, path, callback);
+        }
+
         Status scrollRel(int16_t w) {
             Status status, cmdStatus{};
 
@@ -449,6 +474,28 @@ namespace RX784 {
             if (status != Status::kSuccess) return status;
 
             return cmdStatus;
+        }
+
+        Status movePathAbs(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate, bool isIgnoreErrors,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){});
+
+        Status movePathAbs(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){}) {
+            return movePathAbs(x, y, duration, pollingRate, false, path, callback);
+        }
+
+        Status movePathAbs(int16_t x, int16_t y, uint32_t duration, bool isIgnoreErrors,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){}) {
+            return movePathAbs(x, y, duration, 125, isIgnoreErrors, path, callback);
+        }
+
+        Status movePathAbs(int16_t x, int16_t y, uint32_t duration,
+                           const LinearPath& path,
+                           std::function<void()> callback = [](){}) {
+            return movePathAbs(x, y, duration, 125, false, path, callback);
         }
 
         Status scrollAbs(int16_t w) {
@@ -1231,7 +1278,7 @@ namespace RX784 {
         }
     };
 
-    std::string statusToString(Status status) {
+    static std::string statusToString(Status status) {
         std::ostringstream errorMessage;
 
         switch (status)
@@ -1248,7 +1295,7 @@ namespace RX784 {
         }
     }
 
-    std::ostream& operator<<(std::ostream& stream, Status status)
+    static std::ostream& operator<<(std::ostream& stream, Status status)
     {
         return stream << statusToString(status);
     }
