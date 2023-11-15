@@ -975,8 +975,8 @@ namespace RX784 {
         }
 
         bool serialClose() {
-            bool ok = CloseHandle(hSerial);
-            hSerial = INVALID_HANDLE_VALUE;
+            bool ok = CloseHandle(hSerial) == TRUE;
+            if (ok) hSerial = INVALID_HANDLE_VALUE;
             return ok;
         }
 
