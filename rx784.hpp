@@ -884,18 +884,17 @@ namespace RX784 {
             kEnter, kEscape, kBackspace,
             kTab, kSpace,
 
-            kMinus,        /* - */
-            kEqual,        /* + */
-            kBracketLeft,  /* [ */
-            kBracketRight, /* ] */
-            kBackslash,    /* \ */
-            kNonUsSharp,   /* \ */
-            kSemicolon,    /* ; */
-            kQuote,        /* ' */
-            kBackquote,    /* ` */
-            kComma,        /* , */
-            kPeriod,       /* . */
-            kSlash,        /* / */
+            kMinus,             /* - */
+            kEqual,             /* + */
+            kBracketLeft,       /* [ */
+            kBracketRight,      /* ] */
+            kBackslash,         /* \ */
+            kSemicolon = 0x33,  /* ; */
+            kQuote,             /* ' */
+            kBackquote,         /* ` */
+            kComma,             /* , */
+            kPeriod,            /* . */
+            kSlash,             /* / */
 
             kCapsLock,
 
@@ -922,8 +921,7 @@ namespace RX784 {
             kNumpad6, kNumpad7, kNumpad8, kNumpad9, kNumpad0,
 
             kNumpadDecimal,  /* . */
-            kNonUsSlash,     /* / */
-            kContextMenu,
+            kContextMenu = 0x65,
 
             kControlLeft = 0xE0,
             kShiftLeft,
