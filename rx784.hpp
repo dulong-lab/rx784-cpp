@@ -1013,7 +1013,7 @@ namespace RX784 {
         }
 
         Status recvPacket(Command cmd, LPVOID buffer, size_t bufferSize, uint8_t* dataSize = NULL) {
-            uint8_t packetHead = 0, packetDataSize = 0, packetTail = 0;
+            uint8_t packetDataSize = 0, packetTail = 0;
             Command packetCmd{};
             Status status;
 
