@@ -397,13 +397,13 @@ namespace RX784 {
         Status movePathRel(int16_t x, int16_t y, uint32_t duration, bool isIgnoreErrors,
                            const LinearPath& path,
                            std::function<void()> callback = []{}) {
-            return movePathRel(x, y, duration, 125, isIgnoreErrors, path, callback);
+            return movePathRel(x, y, duration, 250, isIgnoreErrors, path, callback);
         }
 
         Status movePathRel(int16_t x, int16_t y, uint32_t duration,
                            const LinearPath& path,
                            std::function<void()> callback = []{}) {
-            return movePathRel(x, y, duration, 125, false, path, callback);
+            return movePathRel(x, y, duration, 250, false, path, callback);
         }
 
         Status scrollRel(int16_t w) {
