@@ -386,23 +386,23 @@ namespace RX784 {
 
         Status movePathRel(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate, bool isIgnoreErrors,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){});
+                           std::function<void()> callback = []{});
 
         Status movePathRel(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){}) {
+                           std::function<void()> callback = []{}) {
             return movePathRel(x, y, duration, pollingRate, false, path, callback);
         }
 
         Status movePathRel(int16_t x, int16_t y, uint32_t duration, bool isIgnoreErrors,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){}) {
+                           std::function<void()> callback = []{}) {
             return movePathRel(x, y, duration, 125, isIgnoreErrors, path, callback);
         }
 
         Status movePathRel(int16_t x, int16_t y, uint32_t duration,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){}) {
+                           std::function<void()> callback = []{}) {
             return movePathRel(x, y, duration, 125, false, path, callback);
         }
 
@@ -420,7 +420,6 @@ namespace RX784 {
 
         Status getRelMouseState(MouseState& mouseState) {
             Status status;
-            uint8_t buttons = 0;
 
             status = sendPacket(Command::kGetRelMouseState);
             if (status != Status::kSuccess) return status;
@@ -478,24 +477,24 @@ namespace RX784 {
 
         Status movePathAbs(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate, bool isIgnoreErrors,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){});
+                           std::function<void()> callback = []{});
 
         Status movePathAbs(int16_t x, int16_t y, uint32_t duration, uint32_t pollingRate,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){}) {
+                           std::function<void()> callback = []{}) {
             return movePathAbs(x, y, duration, pollingRate, false, path, callback);
         }
 
         Status movePathAbs(int16_t x, int16_t y, uint32_t duration, bool isIgnoreErrors,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){}) {
-            return movePathAbs(x, y, duration, 125, isIgnoreErrors, path, callback);
+                           std::function<void()> callback = []{}) {
+            return movePathAbs(x, y, duration, 250, isIgnoreErrors, path, callback);
         }
 
         Status movePathAbs(int16_t x, int16_t y, uint32_t duration,
                            const LinearPath& path,
-                           std::function<void()> callback = [](){}) {
-            return movePathAbs(x, y, duration, 125, false, path, callback);
+                           std::function<void()> callback = []{}) {
+            return movePathAbs(x, y, duration, 250, false, path, callback);
         }
 
         Status scrollAbs(int16_t w) {
@@ -991,7 +990,7 @@ namespace RX784 {
         }
 
         Status sendPacket(Command cmd, LPCVOID data = NULL, uint8_t dataSize = 0) {
-            DWORD packetSize = 4 + dataSize;  // 0xBE cmd size [data] 0xED
+            DWORD packetSize = 4u + dataSize;  // 0xBE cmd size [data] 0xED
             std::unique_ptr<uint8_t[]> packet(new uint8_t[packetSize]);
 
             packet[0] = 0xBE;
@@ -1145,6 +1144,7 @@ namespace RX784 {
             case HIDKeyCode::kShiftRight:     return VirtualKeyCode::kShiftRight;
             case HIDKeyCode::kAltRight:       return VirtualKeyCode::kAltRight;
             case HIDKeyCode::kOSRight:        return VirtualKeyCode::kOSRight;
+            case HIDKeyCode::kInvalid:        return VirtualKeyCode::kInvalid;
             default:                          return VirtualKeyCode::kInvalid;
             }
         }
@@ -1259,20 +1259,21 @@ namespace RX784 {
             case VirtualKeyCode::kBackslash:      return HIDKeyCode::kBackslash;
             case VirtualKeyCode::kBracketRight:   return HIDKeyCode::kBracketRight;
             case VirtualKeyCode::kQuote:          return HIDKeyCode::kQuote;
+            case VirtualKeyCode::kInvalid:        return HIDKeyCode::kInvalid;
             default:                              return HIDKeyCode::kInvalid;
             }
         }
 
         std::wstring strToWstr(const std::string& str) {
             int size = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);
-            std::unique_ptr<wchar_t[]> wstr(new wchar_t[size]);
+            std::unique_ptr<wchar_t[]> wstr(new wchar_t[static_cast<size_t>(size)]);
             MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, wstr.get(), size);
             return std::wstring(wstr.get());
         }
 
         std::string wstrToStr(const std::wstring& wstr) {
             int size = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
-            std::unique_ptr<char[]> str(new char[size]);
+            std::unique_ptr<char[]> str(new char[static_cast<size_t>(size)]);
             WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, str.get(), size, NULL, NULL);
             return std::string(str.get());
         }
