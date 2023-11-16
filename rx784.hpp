@@ -1285,10 +1285,11 @@ namespace RX784 {
         switch (status)
         {
         case RX784::Status::kSuccess:               return "RX784::Status::kSuccess";
+        case RX784::Status::kSerialError:           return "RX784::Status::kSerialError";
         case RX784::Status::kReadFlashError:        return "RX784::Status::kReadFlashError";
         case RX784::Status::kWriteFlashError:       return "RX784::Status::kWriteFlashError";
         case RX784::Status::kInvalidSize:           return "RX784::Status::kInvalidSize";
-        case RX784::Status::kSerialError:           return "RX784::Status::kSerialError";
+        case RX784::Status::kInvalidCommandPacket:  return "RX784::Status::kInvalidCommandPacket";
         case RX784::Status::kInvalidResponsePacket: return "RX784::Status::kInvalidResponsePacket";
         default:
             errorMessage << static_cast<int8_t>(status) << " is not a valid RX784::Status";
