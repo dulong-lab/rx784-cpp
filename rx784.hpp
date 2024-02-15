@@ -182,14 +182,23 @@ namespace RX784 {
     };
 #pragma pack(pop)
 
-    struct LinearPath;
+    struct LinearPath {
+        double a1;
+        double b1;
+        double a2;
+        double b2;
+        double p1x;
+        double p1y;
+        double p2x;
+        double p2y;
+    };
 
     class Device {
     public:
         static constexpr size_t maxManufacturerStringSize() { return 30; }
         static constexpr size_t maxProductStringSize()      { return 30; }
 
-        Device() :  hSerial(INVALID_HANDLE_VALUE) {}
+        Device() : hSerial(INVALID_HANDLE_VALUE) {}
 
         Status open(const std::string& port) {
             return serialOpen(port.c_str(), 250000) ? Status::kSuccess : Status::kSerialError;
