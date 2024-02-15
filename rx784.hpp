@@ -613,7 +613,7 @@ namespace RX784 {
             status = recvPacket(Command::kSendAbsMouseState, &cmdStatus, sizeof(cmdStatus));
             if (status != Status::kSuccess) return status;
 
-            return Status::kSuccess;
+            return cmdStatus;
         }
 
         Status configHIDVendorID(uint16_t vendorID) {
