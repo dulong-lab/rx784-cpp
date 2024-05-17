@@ -102,7 +102,7 @@ namespace RX784 {
     };
 
     enum class Button : uint8_t {
-        kLeft, kRight, kMiddle
+        kLeft, kRight, kMiddle, kButton4, kButton5
     };
 
     struct KeyboardLEDsState {
@@ -148,6 +148,8 @@ namespace RX784 {
         uint8_t left   : 1;
         uint8_t right  : 1;
         uint8_t middle : 1;
+        uint8_t button4: 1;
+        uint8_t button5: 1;
     };
 
     struct MouseState {
@@ -155,6 +157,8 @@ namespace RX784 {
             uint8_t left   : 1;
             uint8_t right  : 1;
             uint8_t middle : 1;
+            uint8_t button4: 1;
+            uint8_t button5: 1;
         };
         struct Axes {
             int16_t x;
